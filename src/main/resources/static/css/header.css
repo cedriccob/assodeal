@@ -1,0 +1,110 @@
+.carousel-page
+{
+    width:100%;
+    height:250px;
+    background-color:#5f666d;
+    color:white;
+}
+
+.user-wrapper {
+    position: absolute;
+    top: -32px;
+    right: 0;
+    left: 0;
+    padding: 8px 7px 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 11;
+}
+
+.user-menu {
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.header {
+    color: #fff;
+    z-index: 200;
+    position: relative;
+    margin-bottom: 20px;
+    padding-top: 32px;
+    text-align: center;
+}
+
+.assodeal-logo {
+    min-width: 126px;
+    position: relative;
+    outline: 0;
+    margin: 0 24px 0 0;
+    height: 23px;
+    line-height: 23px;
+}
+.text-logo {
+    position: absolute !important;
+    height: 1px !important;
+    width: 1px !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    border: 0 !important;
+    overflow: hidden !important;
+}
+
+.ls-channel-nav {
+    background: #fff;
+    border-bottom: 1px solid #d5d8db;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    min-height: 46px;
+}
+
+.page-container {
+    margin: 0 auto;
+    max-width: 1080px;
+    width: 100%;
+}
+
+.subnav {
+    position: absolute;
+    width: 100%;
+    z-index: 9;
+}
+
+.ls-nav-row {
+    z-index: 8;
+}
+
+.primary-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: default;
+    margin: 0;
+    padding: 0 10px;
+    list-style: none;
+    font-weight: 300;
+}
+
+.primary-nav-tab {
+    text-align: center;
+    padding: 0;
+    cursor: default;
+}
+
+#image{
+    height: 42px;
+}
+
+#title{
+
+}
+
+.navbar{
+    padding:0;
+    background-color: #74c379;
+}
+
+.text-style{
+    font-size: large;
+}
