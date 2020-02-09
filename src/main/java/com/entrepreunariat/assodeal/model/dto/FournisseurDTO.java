@@ -1,21 +1,12 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
-@Entity
-public class Fournisseur {
-    @Id
-    @GeneratedValue
+public class FournisseurDTO {
     private long idFournisseur;
     private String nomFournisseur;
     private String numeroSiretFournisseur;
     private String statutFournisseur;
     private String userFournisseur;
     private String passwordFournisseur;
-    @Transient
     private String confirmPasswordFournisseur;
 
     public long getIdFournisseur() {

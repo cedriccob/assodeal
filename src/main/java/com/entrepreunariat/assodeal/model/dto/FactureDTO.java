@@ -1,16 +1,12 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
-public class Facture {
+public class FactureDTO {
 
-    @Id
-    @GeneratedValue
     private long idFacture;
     private String numeroFacture;
     private BigDecimal montantFacture;
@@ -47,5 +43,4 @@ public class Facture {
     public void setDateFacture(Date dateFacture) {
         this.dateFacture = dateFacture;
     }
-
 }

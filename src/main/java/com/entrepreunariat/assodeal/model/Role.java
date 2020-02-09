@@ -12,9 +12,6 @@ public class Role {
     @JoinColumn(name="id_user")
     private User user;
 
-    public Role() {
-    }
-
     public long getIdRole() {
         return idRole;
     }

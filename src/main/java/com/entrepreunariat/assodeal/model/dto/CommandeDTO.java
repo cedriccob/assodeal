@@ -1,18 +1,14 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.*;
+import com.entrepreunariat.assodeal.model.Produit;
+
 import java.util.Date;
 
-@Entity
-public class Commande {
-    @Id
-    @GeneratedValue
+public class CommandeDTO {
     private long idCommande;
     private int quantiteCommande;
     private Date dateCommande;
     private int statusCommande;
-    @JoinColumn(unique = true)
-    @OneToOne
     private Produit produit;
 
     public long getIdCommande() {
@@ -54,5 +50,4 @@ public class Commande {
     public void setProduit(Produit produit) {
         this.produit = produit;
     }
-
 }

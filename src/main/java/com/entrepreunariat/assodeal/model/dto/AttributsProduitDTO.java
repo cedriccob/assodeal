@@ -1,18 +1,9 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+public class AttributsProduitDTO  {
 
-@Entity
-public class AttributsProduit {
-    @Id
-    @GeneratedValue
     private long idAttributProduit;
-    @Column(name="valeur_couleur_produit")
     private String couleurProduit;
-    @Column(name="valeur_poids_produit")
     private double poidsProduit;
 
     public long getIdAttributProduit() {
@@ -38,5 +29,4 @@ public class AttributsProduit {
     public void setPoidsProduit(double poidsProduit) {
         this.poidsProduit = poidsProduit;
     }
-
 }

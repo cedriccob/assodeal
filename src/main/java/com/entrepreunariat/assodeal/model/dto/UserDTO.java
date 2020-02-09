@@ -1,12 +1,9 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.*;
+import javax.persistence.Transient;
 import java.util.Date;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue
+public class UserDTO {
     private long idUser;
     private String nom;
     private String prenom;
@@ -14,7 +11,6 @@ public class User {
     private String contact;
     private String pseudo;
     private String password;
-    @Transient
     private String confirmPassword;
     private String nationalite;
     private String paysResidence;
@@ -25,8 +21,7 @@ public class User {
     private Date dateEnregistrement;
     // date dernier login
     private Date dateDernierLogin;
-    public User() {
-    }
+
 
     public long getIdUser() {
         return idUser;
@@ -84,6 +79,14 @@ public class User {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public String getNationalite() {
         return nationalite;
     }
@@ -138,13 +141,5 @@ public class User {
 
     public void setDateDernierLogin(Date dateDernierLogin) {
         this.dateDernierLogin = dateDernierLogin;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 }

@@ -1,13 +1,7 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+public class CategorieProduitDTO {
 
-@Entity
-public class CategorieProduit {
-    @Id
-    @GeneratedValue
     private long idCategorieProduit;
     private String libelleProduit;
     private String abreviationProduit;

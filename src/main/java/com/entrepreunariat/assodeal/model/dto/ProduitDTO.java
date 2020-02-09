@@ -1,23 +1,18 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.*;
+import com.entrepreunariat.assodeal.model.AttributsProduit;
+import com.entrepreunariat.assodeal.model.CategorieProduit;
+
 import java.math.BigDecimal;
 
-@Entity
-public class Produit {
-    @Id
-    @GeneratedValue
+public class ProduitDTO {
     private long idProduit;
     private String libelleProduit;
     private int qtStockProduit;
     private BigDecimal prixReelProduit;
     private BigDecimal prixVenteProduit;
     private String detailProduit;
-    @JoinColumn(unique = true)
-    @OneToOne
     private AttributsProduit attributsProduit;
-    @JoinColumn(name = "idCategorieProduit")
-    @OneToOne
     private CategorieProduit categorieProduit;
 
 

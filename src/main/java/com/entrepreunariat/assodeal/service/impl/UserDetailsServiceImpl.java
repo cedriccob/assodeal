@@ -1,35 +1,30 @@
 package com.entrepreunariat.assodeal.service.impl;
 
-import com.entrepreunariat.assodeal.dao.UserRepository;
-import com.entrepreunariat.assodeal.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.entrepreunariat.assodeal.dao.ApplicationRepository;
+import com.entrepreunariat.assodeal.model.Application;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import static java.util.Collections.emptyList;
 
-public class UserDetailsServiceImpl implements UserDetailsService {
+    @Service
+    public class UserDetailsServiceImpl implements UserDetailsService {
+        private ApplicationRepository applicationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+        public UserDetailsServiceImpl(ApplicationRepository applicationRepository) {
+            this.applicationRepository = applicationRepository;
+        }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsService.class);
-
-    @Override
-    public UserDetails loadUserByUsername(String pseudo){
-        User user = userRepository.findByPseudo(pseudo);
-        LOGGER.info("user pseudo {}", user.getPseudo());
-        final Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRoleUser().getRole()));
-        return new org.springframework.security.core.userdetails.User(user.getPseudo(), user.getPassword(),
-                grantedAuthorities);
-
-    }
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            Application application = applicationRepository.findByUsername(username);
+            if (application == null) {
+                throw new UsernameNotFoundException(username);
+            }
+            return new User(application.getUsername(), application.getPassword(), emptyList());
+        }
 }

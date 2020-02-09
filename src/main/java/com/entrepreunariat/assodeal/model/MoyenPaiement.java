@@ -12,9 +12,6 @@ public class MoyenPaiement {
     private String libelleMoyenPaiement;
     private String abreviationMoyenPaiement;
 
-    public MoyenPaiement() {
-    }
-
     public long getIdMoyenPaiement() {
         return idMoyenPaiement;
     }
@@ -39,12 +36,4 @@ public class MoyenPaiement {
         this.abreviationMoyenPaiement = abreviationMoyenPaiement;
     }
 
-    @Override
-    public String toString() {
-        return "MoyenPaiement{" +
-                "idMoyenPaiement=" + idMoyenPaiement +
-                ", libelleMoyenPaiement='" + libelleMoyenPaiement + '\'' +
-                ", abreviationMoyenPaiement='" + abreviationMoyenPaiement + '\'' +
-                '}';
-    }
 }

@@ -1,0 +1,96 @@
+package com.entrepreunariat.assodeal.controller;
+
+import com.entrepreunariat.assodeal.model.CategorieProduit;
+import com.entrepreunariat.assodeal.model.Commande;
+import com.entrepreunariat.assodeal.model.dto.CategorieProduitDTO;
+import com.entrepreunariat.assodeal.model.dto.CommandeDTO;
+import com.entrepreunariat.assodeal.service.CategorieProduitService;
+import com.entrepreunariat.assodeal.service.CommandeService;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/categorie-produit")
+public class CategorieProduitController {
+
+    @Autowired
+    CategorieProduitService categorieProduitService;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategorieProduitController.class);
+
+    @ResponseBody
+    @GetMapping("/all")
+    List<CategorieProduit> findAll() {
+        return categorieProduitService.findAllCategoriesProduit();
+    }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    ResponseEntity<Commande> addCategorieProduit(@RequestBody CategorieProduitDTO categorieProduitDTO) {
+        ResponseEntity<Commande> response = new ResponseEntity<>(HttpStatus.CREATED);
+        try {
+            categorieProduitService.saveCategorieProduit(categorieProduitDTO);
+        } catch (Exception exception) {
+            LOGGER.error("Erreur ajout categorie produit", exception);
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<CategorieProduit> updateCategorieProduit(@RequestBody CategorieProduitDTO categorieProduitDTO,
+                                                            @PathVariable("id") long idCategorieProduit) {
+        ResponseEntity<CategorieProduit> response = new ResponseEntity<>(HttpStatus.OK);
+        Optional<CategorieProduit> categorieProduit = categorieProduitService.retrieveCategorieProduit(idCategorieProduit);
+        if (!categorieProduit.isPresent()) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            LOGGER.error("Mise à jour impossible, cette catégorie de produit n'existe pas");
+        } else {
+            categorieProduit.get().setAbreviationProduit(categorieProduitDTO.getAbreviationProduit());
+            categorieProduit.get().setLibelleProduit(categorieProduitDTO.getLibelleProduit());
+            try {
+                categorieProduitService.saveCategorieProduit(convertToDTO(categorieProduit.get()));
+            } catch (ParseException e) {
+                LOGGER.error("erreur parse update");
+                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        return response;
+    }
+
+    @GetMapping("/{id}")
+    Optional<CategorieProduit> findCategorieProduit(@PathVariable("id") long idCategorieProduit) {
+        return categorieProduitService.retrieveCategorieProduit(idCategorieProduit);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<CategorieProduit> deleteCategorieProduit(@PathVariable("id") long idCategorieProduit) {
+        ResponseEntity<CategorieProduit> response = new ResponseEntity<>(HttpStatus.OK);
+        Optional<CategorieProduit> categorieProduit = categorieProduitService.retrieveCategorieProduit(idCategorieProduit);
+        if (!categorieProduit.isPresent()) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            LOGGER.error("Suppression impossible, cette catégorie de produit n'existe pas");
+
+        } else {
+            categorieProduitService.deleteCategorieProduit(idCategorieProduit);
+        }
+        return response;
+    }
+
+    private CategorieProduitDTO convertToDTO(CategorieProduit categorieProduit) throws ParseException {
+        return modelMapper.map(categorieProduit, CategorieProduitDTO.class);
+    }
+
+}
