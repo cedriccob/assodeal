@@ -1,11 +1,11 @@
 package com.entrepreunariat.assodeal.controller;
 
-import com.entrepreunariat.assodeal.model.AttributsProduit;
 import com.entrepreunariat.assodeal.model.User;
-import com.entrepreunariat.assodeal.model.dto.AttributsProduitDTO;
 import com.entrepreunariat.assodeal.model.dto.UserDTO;
-import com.entrepreunariat.assodeal.service.AttributsProduitService;
 import com.entrepreunariat.assodeal.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@Api(value="User", description = "Opération sur les utilisateurs",
+        authorizations = @Authorization(value = "Bearer"))
 public class UserController {
 
     @Autowired
@@ -32,12 +34,14 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/all")
+    @ApiOperation(value = "Récupérer tous les utilisateurs", authorizations = @Authorization(value = "Bearer"))
     List<User> findAll() {
         return userService.findAllUsers();
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Ajouter un utilisateur", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
         ResponseEntity<User> response = new ResponseEntity<>(HttpStatus.CREATED);
         try {
@@ -57,6 +61,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modifier un utilisateur", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, @PathVariable("id") long idUser) {
         ResponseEntity<User> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<User> user =  userService.findUser(idUser);
@@ -96,11 +101,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Retrouver un utilisateur", authorizations = @Authorization(value = "Bearer"))
     Optional<User> findUser(@PathVariable("id") long idUser) {
         return userService.findUser(idUser);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Supprimer un utilisateur", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<User> deleteUser(@PathVariable("id") long idUser){
         ResponseEntity<User> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<User> user= userService.findUser(idUser);

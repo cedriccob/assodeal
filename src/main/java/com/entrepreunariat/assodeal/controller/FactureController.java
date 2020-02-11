@@ -1,11 +1,11 @@
 package com.entrepreunariat.assodeal.controller;
 
-import com.entrepreunariat.assodeal.model.Commande;
 import com.entrepreunariat.assodeal.model.Facture;
-import com.entrepreunariat.assodeal.model.dto.CommandeDTO;
 import com.entrepreunariat.assodeal.model.dto.FactureDTO;
-import com.entrepreunariat.assodeal.service.CommandeService;
 import com.entrepreunariat.assodeal.service.FactureService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/facture")
+@Api(value="facture", description = "Opérations sur les factures de commande",
+        authorizations = @Authorization(value = "Bearer"))
 public class FactureController  {
     @Autowired
     FactureService factureService;
@@ -31,6 +33,7 @@ public class FactureController  {
 
     @ResponseBody
     @GetMapping("/all")
+    @ApiOperation(value = "Récupérer toutes les factures", authorizations = @Authorization(value = "Bearer"))
     List<Facture> findAll() {
         return factureService.findAllFacture();
     }
@@ -49,6 +52,7 @@ public class FactureController  {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modifier une facture", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Facture> updateFacture(@RequestBody FactureDTO factureDTO, @PathVariable("id") long idFacture) {
         ResponseEntity<Facture> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Facture> facture = factureService.retrieveFacture(idFacture);
@@ -71,11 +75,13 @@ public class FactureController  {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Retrouver une facture", authorizations = @Authorization(value = "Bearer"))
     Optional<Facture> findCommande(@PathVariable("id") long idFacture) {
         return factureService.retrieveFacture(idFacture);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Supprimer une facture", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Facture> deleteFacture(@PathVariable("id") long idFacture){
         ResponseEntity<Facture> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Facture> facture= factureService.retrieveFacture(idFacture);

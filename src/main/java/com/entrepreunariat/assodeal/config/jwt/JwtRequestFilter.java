@@ -1,4 +1,4 @@
-package com.entrepreunariat.assodeal.config;
+package com.entrepreunariat.assodeal.config.jwt;
 
 import com.entrepreunariat.assodeal.service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;

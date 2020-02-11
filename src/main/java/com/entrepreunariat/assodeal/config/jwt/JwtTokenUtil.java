@@ -1,4 +1,4 @@
-package com.entrepreunariat.assodeal.config;
+package com.entrepreunariat.assodeal.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

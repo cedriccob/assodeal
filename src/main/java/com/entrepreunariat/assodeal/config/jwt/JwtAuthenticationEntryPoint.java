@@ -1,4 +1,4 @@
-package com.entrepreunariat.assodeal.config;
+package com.entrepreunariat.assodeal.config.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

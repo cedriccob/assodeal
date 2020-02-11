@@ -4,6 +4,9 @@ package com.entrepreunariat.assodeal.controller;
 import com.entrepreunariat.assodeal.model.Produit;
 import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
 import com.entrepreunariat.assodeal.service.ProduitService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/produit")
+@Api(value="Produit", description = "Opération sur les produits",
+        authorizations = @Authorization(value = "Bearer"))
 public class ProduitController {
 
     @Autowired
@@ -30,12 +35,14 @@ public class ProduitController {
 
     @ResponseBody
     @GetMapping("/all")
+    @ApiOperation(value = "Récupérer tous les produits", authorizations = @Authorization(value = "Bearer"))
     List<Produit> findAll() {
         return produitService.findAllProduit();
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Ajouter un produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Produit> addProduit(@RequestBody ProduitDTO produit) {
         ResponseEntity<Produit> response = new ResponseEntity<>(HttpStatus.CREATED);
         try {
@@ -48,6 +55,7 @@ public class ProduitController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modifier un produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Produit> updateProduit(@RequestBody ProduitDTO newProduit, @PathVariable("id") long idProduit) {
         ResponseEntity<Produit> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Produit> produit = produitService.findProduit(idProduit);
@@ -74,11 +82,13 @@ public class ProduitController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Retrouver un produit", authorizations = @Authorization(value = "Bearer"))
     Optional<Produit> findProduit(@PathVariable("id") long idProduit) {
         return produitService.findProduit(idProduit);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Supprimer un produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Produit> deleteProduit(@PathVariable("id") long idProduit) {
         ResponseEntity<Produit> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Produit> produit = produitService.findProduit(idProduit);

@@ -1,10 +1,12 @@
 package com.entrepreunariat.assodeal.controller;
 
-import com.entrepreunariat.assodeal.config.JwtTokenUtil;
+import com.entrepreunariat.assodeal.config.jwt.JwtTokenUtil;
 import com.entrepreunariat.assodeal.service.JwtUserDetailsService;
 import com.entrepreunariat.assodeal.model.dto.ApplicationDTO;
 import com.entrepreunariat.assodeal.model.jwt.JwtRequest;
 import com.entrepreunariat.assodeal.model.jwt.JwtResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,8 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Api(value="authentication", description = "Opérations pour l'authentification permettant d'effectuer les actions sur les API")
 @CrossOrigin
-public class JwtAuthenticationController {
+public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -27,6 +30,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @ApiOperation(value = "Obtention du token pour accéder à toutes les API")
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -39,6 +43,7 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @ApiOperation(value = "Inscription pour obtenir les identifiants permettant d'avoir le token")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody ApplicationDTO app) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(app));
@@ -53,5 +58,4 @@ public class JwtAuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
-
 }

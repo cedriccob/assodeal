@@ -3,6 +3,9 @@ package com.entrepreunariat.assodeal.controller;
 import com.entrepreunariat.assodeal.model.Commande;
 import com.entrepreunariat.assodeal.model.dto.CommandeDTO;
 import com.entrepreunariat.assodeal.service.CommandeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/commande")
+@Api(value="Commande", description = "Opérations sur les commandes de produit",
+        authorizations = @Authorization(value = "Bearer"))
 public class CommandeController {
 
     @Autowired
@@ -29,12 +34,14 @@ public class CommandeController {
 
     @ResponseBody
     @GetMapping("/all")
+    @ApiOperation(value = "Récupérer toutes les commandes de produit", authorizations = @Authorization(value = "Bearer"))
     List<Commande> findAll() {
         return commandeService.findAllCommande();
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Ajouter une commande de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Commande> addCommande(@RequestBody CommandeDTO commandeDTO) {
         ResponseEntity<Commande> response = new ResponseEntity<>(HttpStatus.CREATED);
         try {
@@ -47,6 +54,7 @@ public class CommandeController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modifier une commande de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Commande> updateCommande(@RequestBody CommandeDTO commandeDTO, @PathVariable("id") long idCommande) {
         ResponseEntity<Commande> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Commande> commande = commandeService.retrieveCommande(idCommande);
@@ -69,11 +77,13 @@ public class CommandeController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Retrouver une commande de produit", authorizations = @Authorization(value = "Bearer"))
     Optional<Commande> findCommande(@PathVariable("id") long idCommande) {
         return commandeService.retrieveCommande(idCommande);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Supprimer une commande de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Commande> deleteCommande(@PathVariable("id") long idCommande) {
         ResponseEntity<Commande> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<Commande> commande = commandeService.retrieveCommande(idCommande);

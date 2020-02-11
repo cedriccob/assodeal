@@ -3,9 +3,10 @@ package com.entrepreunariat.assodeal.controller;
 import com.entrepreunariat.assodeal.model.CategorieProduit;
 import com.entrepreunariat.assodeal.model.Commande;
 import com.entrepreunariat.assodeal.model.dto.CategorieProduitDTO;
-import com.entrepreunariat.assodeal.model.dto.CommandeDTO;
 import com.entrepreunariat.assodeal.service.CategorieProduitService;
-import com.entrepreunariat.assodeal.service.CommandeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/categorie-produit")
+@Api(value="authentication", description = "Opérations sur les catégories de produit",
+        authorizations = @Authorization(value = "Bearer"))
 public class CategorieProduitController {
 
     @Autowired
@@ -32,12 +35,14 @@ public class CategorieProduitController {
 
     @ResponseBody
     @GetMapping("/all")
+    @ApiOperation(value = "Récupérer toutes les catégories de produit", authorizations = @Authorization(value = "Bearer"))
     List<CategorieProduit> findAll() {
         return categorieProduitService.findAllCategoriesProduit();
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Ajouter une catégorie de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<Commande> addCategorieProduit(@RequestBody CategorieProduitDTO categorieProduitDTO) {
         ResponseEntity<Commande> response = new ResponseEntity<>(HttpStatus.CREATED);
         try {
@@ -50,6 +55,7 @@ public class CategorieProduitController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modifier une catégorie de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<CategorieProduit> updateCategorieProduit(@RequestBody CategorieProduitDTO categorieProduitDTO,
                                                             @PathVariable("id") long idCategorieProduit) {
         ResponseEntity<CategorieProduit> response = new ResponseEntity<>(HttpStatus.OK);
@@ -71,11 +77,13 @@ public class CategorieProduitController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Retrouver une catégorie de produit", authorizations = @Authorization(value = "Bearer"))
     Optional<CategorieProduit> findCategorieProduit(@PathVariable("id") long idCategorieProduit) {
         return categorieProduitService.retrieveCategorieProduit(idCategorieProduit);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Supprimer une catégorie de produit", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<CategorieProduit> deleteCategorieProduit(@PathVariable("id") long idCategorieProduit) {
         ResponseEntity<CategorieProduit> response = new ResponseEntity<>(HttpStatus.OK);
         Optional<CategorieProduit> categorieProduit = categorieProduitService.retrieveCategorieProduit(idCategorieProduit);

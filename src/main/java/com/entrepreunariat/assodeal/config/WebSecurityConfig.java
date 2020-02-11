@@ -1,5 +1,7 @@
 package com.entrepreunariat.assodeal.config;
 
+import com.entrepreunariat.assodeal.config.jwt.JwtAuthenticationEntryPoint;
+import com.entrepreunariat.assodeal.config.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +55,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate", "/register").permitAll().
+                .authorizeRequests().antMatchers("/authenticate", "/register",
+                "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
+                .permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
