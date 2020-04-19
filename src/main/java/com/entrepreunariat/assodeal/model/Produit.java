@@ -13,11 +13,11 @@ public class Produit {
     private BigDecimal prixReelProduit;
     private BigDecimal prixVenteProduit;
     private String detailProduit;
-    @JoinColumn(unique = true)
     @OneToOne
+    @JoinColumn(name = "id_attributs_produit")
     private AttributsProduit attributsProduit;
-    @JoinColumn(name = "idCategorieProduit")
     @OneToOne
+    @JoinColumn(name = "id_categorie_produit")
     private CategorieProduit categorieProduit;
 
 

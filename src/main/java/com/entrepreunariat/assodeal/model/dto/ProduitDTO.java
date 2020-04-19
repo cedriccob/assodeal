@@ -1,20 +1,19 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-import com.entrepreunariat.assodeal.model.AttributsProduit;
-import com.entrepreunariat.assodeal.model.CategorieProduit;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ProduitDTO {
+public class ProduitDTO implements Serializable {
+    private static final long serialVersionUID = -3069117792108057254L;
     private long idProduit;
     private String libelleProduit;
     private int qtStockProduit;
     private BigDecimal prixReelProduit;
     private BigDecimal prixVenteProduit;
     private String detailProduit;
-    private AttributsProduit attributsProduit;
-    private CategorieProduit categorieProduit;
-
+    private AttributsProduitDTO attributsProduit;
+    private CategorieProduitDTO categorieProduit;
 
     public long getIdProduit() {
         return idProduit;
@@ -64,20 +63,19 @@ public class ProduitDTO {
         this.detailProduit = detailProduit;
     }
 
-    public AttributsProduit getAttributsProduit() {
+    public AttributsProduitDTO getAttributsProduit() {
         return attributsProduit;
     }
 
-    public void setAttributsProduit(AttributsProduit attributsProduit) {
+    public void setAttributsProduit(AttributsProduitDTO attributsProduit) {
         this.attributsProduit = attributsProduit;
     }
 
-    public CategorieProduit getCategorieProduit() {
+    public CategorieProduitDTO getCategorieProduit() {
         return categorieProduit;
     }
 
-    public void setCategorieProduit(CategorieProduit categorieProduit) {
+    public void setCategorieProduit(CategorieProduitDTO categorieProduit) {
         this.categorieProduit = categorieProduit;
     }
-
 }

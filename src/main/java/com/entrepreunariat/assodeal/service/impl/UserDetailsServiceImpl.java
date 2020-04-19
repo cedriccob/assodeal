@@ -2,7 +2,6 @@ package com.entrepreunariat.assodeal.service.impl;
 
 import com.entrepreunariat.assodeal.dao.ApplicationRepository;
 import com.entrepreunariat.assodeal.model.Application;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

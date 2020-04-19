@@ -3,6 +3,8 @@ package com.entrepreunariat.assodeal.controller;
 
 import com.entrepreunariat.assodeal.model.Produit;
 import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
+import com.entrepreunariat.assodeal.service.AttributsProduitService;
+import com.entrepreunariat.assodeal.service.CategorieProduitService;
 import com.entrepreunariat.assodeal.service.ProduitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +31,15 @@ public class ProduitController {
     ProduitService produitService;
 
     @Autowired
+    AttributsProduitService attributsProduitService;
+
+    @Autowired
+    CategorieProduitService categorieProduitService;
+
+    @Autowired
     ModelMapper modelMapper;
+
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProduitController.class);
 
@@ -63,18 +73,20 @@ public class ProduitController {
             LOGGER.error("Mise à jour impossible, ce produit n'existe pas");
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            produit.get().setAttributsProduit(newProduit.getAttributsProduit());
-            produit.get().setCategorieProduit(newProduit.getCategorieProduit());
+            try {
+            produit.get().setAttributsProduit(
+                    attributsProduitService.convertAttributsProduitToEntity(newProduit.getAttributsProduit()));
+            produit.get().setCategorieProduit(
+                    categorieProduitService.convertCategorieProduitToEntity(newProduit.getCategorieProduit()));
             produit.get().setDetailProduit(newProduit.getDetailProduit());
             produit.get().setLibelleProduit(newProduit.getLibelleProduit());
             produit.get().setPrixReelProduit(newProduit.getPrixReelProduit());
             produit.get().setPrixVenteProduit(newProduit.getPrixVenteProduit());
             produit.get().setQtStockProduit(newProduit.getQtStockProduit());
-            try {
                 produitService.saveProduit(convertToDTO(produit.get()));
             } catch (ParseException e) {
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return response;

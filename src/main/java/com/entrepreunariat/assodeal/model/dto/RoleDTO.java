@@ -1,12 +1,11 @@
-package com.entrepreunariat.assodeal.model;
+package com.entrepreunariat.assodeal.model.dto;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "user_role")
-public class Role {
-    @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+public class RoleDTO implements Serializable {
+
+    private static final long serialVersionUID = -1709473238277133762L;
     private long idRole;
     private String nameRole;
     private String codeRole;

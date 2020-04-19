@@ -32,7 +32,6 @@ public class FactureServiceImpl implements FactureService {
     public Facture saveFacture(FactureDTO factureDTO) {
         Facture facture = new Facture();
         facture.setDateFacture(factureDTO.getDateFacture());
-        facture.setIdFacture(factureDTO.getIdFacture());
         facture.setMontantFacture(factureDTO.getMontantFacture());
         facture.setNumeroFacture(factureDTO.getNumeroFacture());
         return factureRepository.save(facture);

@@ -11,8 +11,8 @@ public class Commande {
     private int quantiteCommande;
     private Date dateCommande;
     private int statusCommande;
-    @JoinColumn(unique = true)
     @OneToOne
+    @JoinColumn(name = "id_produit")
     private Produit produit;
 
     public long getIdCommande() {

@@ -2,6 +2,7 @@ package com.entrepreunariat.assodeal.controller;
 
 import com.entrepreunariat.assodeal.model.User;
 import com.entrepreunariat.assodeal.model.dto.UserDTO;
+import com.entrepreunariat.assodeal.service.JwtUserDetailsService;
 import com.entrepreunariat.assodeal.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,9 @@ public class UserController {
     UserService userService;
 
     @Autowired
+    private JwtUserDetailsService userDetailsService;
+
+    @Autowired
     ModelMapper modelMapper;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -37,27 +41,6 @@ public class UserController {
     @ApiOperation(value = "Récupérer tous les utilisateurs", authorizations = @Authorization(value = "Bearer"))
     List<User> findAll() {
         return userService.findAllUsers();
-    }
-
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Ajouter un utilisateur", authorizations = @Authorization(value = "Bearer"))
-    ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
-        ResponseEntity<User> response = new ResponseEntity<>(HttpStatus.CREATED);
-        try {
-            if(userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-                userService.saveUser(userDTO);
-            }
-            else{
-                LOGGER.error("Les mots de passe sont différents");
-                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            userService.saveUser(userDTO);
-        } catch (Exception exception) {
-            LOGGER.error("Erreur ajout user", exception);
-            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return response;
     }
 
     @PutMapping("/{id}")
@@ -72,20 +55,17 @@ public class UserController {
         else {
             user.get().setStatus(userDTO.getStatus());
             user.get().setPassword(userDTO.getPassword());
+            user.get().setConfirmPassword(userDTO.getConfirmPassword());
             user.get().setPrenom(userDTO.getPrenom());
-            user.get().setPseudo(userDTO.getPseudo());
+            user.get().setUsername(userDTO.getUsername());
             user.get().setNom(userDTO.getNom());
-            user.get().setPaysResidence(userDTO.getPaysResidence());
-            user.get().setVille(userDTO.getVille());
-            user.get().setNationalite(userDTO.getNationalite());
             user.get().setMail(userDTO.getMail());
             user.get().setDateEnregistrement(userDTO.getDateEnregistrement());
-            user.get().setDateDernierLogin(userDTO.getDateDernierLogin());
+            user.get().setEnabled(userDTO.isEnabled());
             user.get().setContact(userDTO.getContact());
-            user.get().setAdresse(userDTO.getAdresse());
             try {
                 if(convertToDTO(user.get()).getPassword().equals(convertToDTO(user.get()).getConfirmPassword())) {
-                    userService.saveUser(convertToDTO(user.get()));
+                    userDetailsService.save(convertToDTO(user.get()));
                 }
                 else{
                     LOGGER.error("Les mots de passe sont différents");
@@ -100,10 +80,16 @@ public class UserController {
 
     }
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Retrouver un utilisateur", authorizations = @Authorization(value = "Bearer"))
-    Optional<User> findUser(@PathVariable("id") long idUser) {
-        return userService.findUser(idUser);
+
+    @GetMapping("/{username}")
+    @ApiOperation(value = "Retrouver un utilisateur par son username", authorizations = @Authorization(value = "Bearer"))
+    ResponseEntity<User> findUserByName(@PathVariable("username") String username) {
+        User user = userService.findUserByUsername(username);
+        ResponseEntity<User> response = ResponseEntity.ok(user);
+        if(user==null){
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
@@ -123,5 +109,7 @@ public class UserController {
     private UserDTO convertToDTO(User user) throws ParseException {
         return modelMapper.map(user, UserDTO.class);
     }
+
+
 
 }

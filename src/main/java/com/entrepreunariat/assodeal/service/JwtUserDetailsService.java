@@ -1,40 +1,85 @@
 package com.entrepreunariat.assodeal.service;
 
-import com.entrepreunariat.assodeal.dao.ApplicationRepository;
+import com.entrepreunariat.assodeal.dao.UserRepository;
 import com.entrepreunariat.assodeal.model.Application;
+import com.entrepreunariat.assodeal.model.Produit;
+import com.entrepreunariat.assodeal.model.Role;
+import com.entrepreunariat.assodeal.model.User;
 import com.entrepreunariat.assodeal.model.dto.ApplicationDTO;
+import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
+import com.entrepreunariat.assodeal.model.dto.RoleDTO;
+import com.entrepreunariat.assodeal.model.dto.UserDTO;
+import com.entrepreunariat.assodeal.service.impl.ProduitServiceImpl;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
-    @Autowired
-    private ApplicationRepository applicationRepository;
 
     @Autowired
-    private PasswordEncoder bcryptEncoder;
+    private UserRepository userRepository;
+
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUserDetailsService.class);
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Application app = applicationRepository.findByUsername(username);
-        if (app == null) {
+        com.entrepreunariat.assodeal.model.User user = userRepository.findByUsername(username);
+
+        final Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+        if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(app.getUsername(), app.getPassword(),
-                new ArrayList<>());
+        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getNameRole()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(),
+                true, true, true, grantedAuthorities);
     }
 
-    public Application save(ApplicationDTO app) {
-        Application newApp = new Application();
-        newApp.setUsername(app.getUsername());
-        newApp.setPassword(bcryptEncoder.encode(app.getPassword()));
-        return applicationRepository.save(newApp);
+    public User save(UserDTO userDTO) {
+        User user = new User();
+        user.setIdUser(userDTO.getIdUser());
+        user.setAdresse(userDTO.getAdresse());
+        user.setContact(userDTO.getContact());
+        user.setDateDernierLogin(userDTO.getDateDernierLogin());
+        user.setDateEnregistrement(userDTO.getDateEnregistrement());
+        user.setMail(userDTO.getMail());
+        user.setNationalite(userDTO.getNationalite());
+        user.setVille(userDTO.getVille());
+        user.setPaysResidence(userDTO.getPaysResidence());
+        user.setNom(userDTO.getNom());
+        user.setUsername(userDTO.getUsername());
+        user.setPrenom(userDTO.getPrenom());
+        user.setStatus(userDTO.getStatus());
+        user.setPassword(userDTO.getPassword());
+        user.setEnabled(userDTO.isEnabled());
+        user.setRole(userDTO.getRole());
+        return userRepository.save(user);
     }
+
+    public User findExistingMail(String mail) {
+        return userRepository.findByMailIgnoreCase(mail);
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 }

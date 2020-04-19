@@ -83,7 +83,7 @@ public class FournisseurController {
                 }
             } catch (ParseException e) {
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return response;

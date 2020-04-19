@@ -32,30 +32,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    @Override
-    public User saveUser(UserDTO userDTO)
-    {
-        User user = new User();
-        user.setIdUser(userDTO.getIdUser());
-        user.setAdresse(userDTO.getAdresse());
-        user.setContact(userDTO.getContact());
-        user.setDateDernierLogin(userDTO.getDateDernierLogin());
-        user.setDateEnregistrement(userDTO.getDateEnregistrement());
-        user.setMail(userDTO.getMail());
-        user.setNationalite(userDTO.getNationalite());
-        user.setVille(userDTO.getVille());
-        user.setPaysResidence(userDTO.getPaysResidence());
-        user.setNom(userDTO.getNom());
-        user.setPseudo(userDTO.getPseudo());
-        user.setPrenom(userDTO.getPrenom());
-        user.setStatus(userDTO.getStatus());
-        user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
-        user.setConfirmPassword(bcryptEncoder.encode(userDTO.getConfirmPassword()));
-        return userRepository.save(user);
-    }
 
     @Override
     public void deleteUser(Long idUser) {
         userRepository.deleteByIdUser(idUser);
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+
 }

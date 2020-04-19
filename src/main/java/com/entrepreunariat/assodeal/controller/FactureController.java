@@ -61,14 +61,14 @@ public class FactureController  {
             LOGGER.error("Mise à jour impossible, cette facture n'existe pas");
         }
         else {
-            facture.get().setNumeroFacture(factureDTO.getNumeroFacture());
-            facture.get().setMontantFacture(factureDTO.getMontantFacture());
-            facture.get().setDateFacture(factureDTO.getDateFacture());
             try {
+                facture.get().setNumeroFacture(factureDTO.getNumeroFacture());
+                facture.get().setMontantFacture(factureDTO.getMontantFacture());
+                facture.get().setDateFacture(factureDTO.getDateFacture());
                 factureService.saveFacture(convertToDTO(facture.get()));
             } catch (ParseException e) {
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return response;

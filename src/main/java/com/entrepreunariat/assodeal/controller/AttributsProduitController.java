@@ -62,13 +62,16 @@ public class AttributsProduitController {
             LOGGER.error("Mise à jour impossible, cet attribut de produit n'existe pas");
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+            try {
+
             attributsProduit.get().setPoidsProduit(attributsProduitDTO.getPoidsProduit());
             attributsProduit.get().setCouleurProduit(attributsProduitDTO.getCouleurProduit());
-            try {
-                attributsProduitService.saveAttributProduit(convertToDTO(attributsProduit.get()));
-            } catch (ParseException e) {
+                attributsProduitService.saveAttributProduit(
+                        attributsProduitService.convertAttributsProduitToDTO(attributsProduit.get()));
+            }
+            catch (ParseException e){
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return response;
@@ -93,10 +96,5 @@ public class AttributsProduitController {
         }
         return response;
     }
-
-    private AttributsProduitDTO convertToDTO(AttributsProduit attributsProduit) throws ParseException {
-        return modelMapper.map(attributsProduit, AttributsProduitDTO.class);
-    }
-
 
 }

@@ -35,7 +35,6 @@ public class FournisseurServiceImpl implements FournisseurService {
     @Override
     public Fournisseur saveFournisseur(FournisseurDTO fournisseurDTO)
     {   Fournisseur fournisseur = new Fournisseur();
-        fournisseur.setIdFournisseur(fournisseurDTO.getIdFournisseur());
         fournisseur.setNomFournisseur(fournisseurDTO.getNomFournisseur());
         fournisseur.setNumeroSiretFournisseur(fournisseurDTO.getNumeroSiretFournisseur());
         fournisseur.setStatutFournisseur(fournisseurDTO.getStatutFournisseur());

@@ -1,6 +1,9 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-public class FournisseurDTO {
+import java.io.Serializable;
+
+public class FournisseurDTO implements Serializable {
+    private static final long serialVersionUID = 7810147681120578845L;
     private long idFournisseur;
     private String nomFournisseur;
     private String numeroSiretFournisseur;

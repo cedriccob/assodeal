@@ -1,15 +1,16 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-import com.entrepreunariat.assodeal.model.Produit;
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class CommandeDTO {
+public class CommandeDTO implements Serializable {
+    private static final long serialVersionUID = -6950484921614522853L;
     private long idCommande;
     private int quantiteCommande;
     private Date dateCommande;
     private int statusCommande;
-    private Produit produit;
+    private ProduitDTO produit;
+
 
     public long getIdCommande() {
         return idCommande;
@@ -43,11 +44,11 @@ public class CommandeDTO {
         this.statusCommande = statusCommande;
     }
 
-    public Produit getProduit() {
+    public ProduitDTO getProduit() {
         return produit;
     }
 
-    public void setProduit(Produit produit) {
+    public void setProduit(ProduitDTO produit) {
         this.produit = produit;
     }
 }

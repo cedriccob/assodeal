@@ -12,7 +12,7 @@ public class User {
     private String prenom;
     private String mail;
     private String contact;
-    private String pseudo;
+    private String username;
     private String password;
     @Transient
     private String confirmPassword;
@@ -25,6 +25,11 @@ public class User {
     private Date dateEnregistrement;
     // date dernier login
     private Date dateDernierLogin;
+    @OneToOne
+    @JoinColumn(name = "idRole")
+    private Role role;
+    private boolean isEnabled;
+
     public User() {
     }
 
@@ -68,12 +73,12 @@ public class User {
         this.contact = contact;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -146,5 +151,21 @@ public class User {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }

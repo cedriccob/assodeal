@@ -3,6 +3,7 @@ package com.entrepreunariat.assodeal.controller;
 import com.entrepreunariat.assodeal.model.Commande;
 import com.entrepreunariat.assodeal.model.dto.CommandeDTO;
 import com.entrepreunariat.assodeal.service.CommandeService;
+import com.entrepreunariat.assodeal.service.ProduitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -26,6 +27,9 @@ public class CommandeController {
 
     @Autowired
     CommandeService commandeService;
+
+    @Autowired
+    ProduitService produitService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -62,15 +66,15 @@ public class CommandeController {
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
             LOGGER.error("Mise à jour impossible, cette commande n'existe pas");
         } else {
-            commande.get().setStatusCommande(commandeDTO.getStatusCommande());
-            commande.get().setQuantiteCommande(commandeDTO.getQuantiteCommande());
-            commande.get().setProduit(commandeDTO.getProduit());
-            commande.get().setDateCommande(commandeDTO.getDateCommande());
             try {
+                commande.get().setStatusCommande(commandeDTO.getStatusCommande());
+                commande.get().setQuantiteCommande(commandeDTO.getQuantiteCommande());
+                commande.get().setProduit(produitService.convertProduitToEntity(commandeDTO.getProduit()));
+                commande.get().setDateCommande(commandeDTO.getDateCommande());
                 commandeService.saveCommande(convertToDTO(commande.get()));
             } catch (ParseException e) {
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
             return response;

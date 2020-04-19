@@ -1,12 +1,12 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class FactureDTO {
+public class FactureDTO implements Serializable {
 
+    private static final long serialVersionUID = 1114525913743701260L;
     private long idFacture;
     private String numeroFacture;
     private BigDecimal montantFacture;

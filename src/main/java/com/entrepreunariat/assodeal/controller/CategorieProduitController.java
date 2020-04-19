@@ -64,13 +64,14 @@ public class CategorieProduitController {
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
             LOGGER.error("Mise à jour impossible, cette catégorie de produit n'existe pas");
         } else {
-            categorieProduit.get().setAbreviationProduit(categorieProduitDTO.getAbreviationProduit());
-            categorieProduit.get().setLibelleProduit(categorieProduitDTO.getLibelleProduit());
             try {
-                categorieProduitService.saveCategorieProduit(convertToDTO(categorieProduit.get()));
+                categorieProduit.get().setAbreviationProduit(categorieProduitDTO.getAbreviationProduit());
+                categorieProduit.get().setLibelleProduit(categorieProduitDTO.getLibelleProduit());
+                categorieProduitService.saveCategorieProduit(
+                        categorieProduitService.convertCategorieProduitToDTO(categorieProduit.get()));
             } catch (ParseException e) {
                 LOGGER.error("erreur parse update");
-                response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return response;
@@ -97,8 +98,5 @@ public class CategorieProduitController {
         return response;
     }
 
-    private CategorieProduitDTO convertToDTO(CategorieProduit categorieProduit) throws ParseException {
-        return modelMapper.map(categorieProduit, CategorieProduitDTO.class);
-    }
 
 }

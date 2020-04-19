@@ -1,15 +1,18 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-import javax.persistence.Transient;
+import com.entrepreunariat.assodeal.model.Role;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserDTO {
+public class UserDTO implements Serializable {
+    private static final long serialVersionUID = -6884540000087415757L;
     private long idUser;
     private String nom;
     private String prenom;
     private String mail;
     private String contact;
-    private String pseudo;
+    private String username;
     private String password;
     private String confirmPassword;
     private String nationalite;
@@ -21,7 +24,8 @@ public class UserDTO {
     private Date dateEnregistrement;
     // date dernier login
     private Date dateDernierLogin;
-
+    private Role role;
+    private boolean isEnabled;
 
     public long getIdUser() {
         return idUser;
@@ -63,12 +67,12 @@ public class UserDTO {
         this.contact = contact;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -141,5 +145,21 @@ public class UserDTO {
 
     public void setDateDernierLogin(Date dateDernierLogin) {
         this.dateDernierLogin = dateDernierLogin;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }
