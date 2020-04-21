@@ -322,7 +322,7 @@ class User
             'role' => $user->getRole()
         ];
         $client = new Client();
-        $response = $client->post('http://localhost:8081/register', [GuzzleHttp\RequestOptions::JSON => $arrayUser]);
+        $response = $client->post('http://localhost:8080/register', [GuzzleHttp\RequestOptions::JSON => $arrayUser]);
         return $response->getStatusCode();
     }
 
@@ -334,14 +334,14 @@ class User
         ];
 
         $client = new Client();
-        $response = $client->post('http://localhost:8081/authenticate', [GuzzleHttp\RequestOptions::JSON => $arrayUser]);
+        $response = $client->post('http://localhost:8080/authenticate', [GuzzleHttp\RequestOptions::JSON => $arrayUser]);
         return json_decode($response->getBody(), true);
     }
 
     public function getVerificationToken($tokenMail)
     {
         $client = new Client();
-        $response = $client->request('POST', 'http://localhost:8081/confirm-account', ['query' => ['token' => $tokenMail]]);
+        $response = $client->request('POST', 'http://localhost:8080/confirm-account', ['query' => ['token' => $tokenMail]]);
         return $response->getStatusCode();
     }
 
@@ -350,7 +350,7 @@ class User
         $headers = [
             'Authorization' => 'Bearer ' . $token
         ];
-        $client = new GuzzleHttp\Client(['base_uri' => 'http://localhost:8081/user/']);
+        $client = new GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/user/']);
         $response = $client->request('GET', $username, ['headers' => $headers]);
         return json_decode($response->getBody(), true);
     }
