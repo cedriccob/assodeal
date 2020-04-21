@@ -1,9 +1,6 @@
 package com.entrepreunariat.assodeal.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,7 +8,8 @@ import java.util.Date;
 public class Facture {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-fac")
+    @SequenceGenerator(name = "seqid-gen-fac", sequenceName = "facture_seq", allocationSize = 1, initialValue = 1)
     private long idFacture;
     private String numeroFacture;
     private BigDecimal montantFacture;

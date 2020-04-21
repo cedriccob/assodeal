@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 public class Fournisseur {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-frn")
+    @SequenceGenerator(name = "seqid-gen-frn", sequenceName = "fournisseur_seq", allocationSize = 1, initialValue = 1)
     private long idFournisseur;
     private String nomFournisseur;
     private String numeroSiretFournisseur;

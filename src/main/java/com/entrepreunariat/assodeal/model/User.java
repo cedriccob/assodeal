@@ -6,7 +6,8 @@ import java.util.Date;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-usr")
+    @SequenceGenerator(name = "seqid-gen-usr", sequenceName = "user_seq", allocationSize = 1, initialValue = 1)
     private long idUser;
     private String nom;
     private String prenom;

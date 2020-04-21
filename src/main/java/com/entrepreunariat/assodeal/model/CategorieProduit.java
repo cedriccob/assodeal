@@ -1,14 +1,12 @@
 package com.entrepreunariat.assodeal.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class CategorieProduit {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-cat")
+    @SequenceGenerator(name = "seqid-gen-cat", sequenceName = "categorie_produit_seq", allocationSize = 1, initialValue = 1)
     private long idCategorieProduit;
     private String libelleProduit;
     private String abreviationProduit;

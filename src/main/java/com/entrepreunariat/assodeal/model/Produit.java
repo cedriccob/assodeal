@@ -6,7 +6,8 @@ import java.math.BigDecimal;
 @Entity
 public class Produit {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-pdt")
+    @SequenceGenerator(name = "seqid-gen-pdt", sequenceName = "produit_seq", allocationSize = 1, initialValue = 1)
     private long idProduit;
     private String libelleProduit;
     private int qtStockProduit;

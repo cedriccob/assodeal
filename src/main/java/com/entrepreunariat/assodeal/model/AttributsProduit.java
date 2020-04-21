@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 public class AttributsProduit {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-att")
+    @SequenceGenerator(name = "seqid-gen-att", sequenceName = "attributs_produits_seq", allocationSize = 1, initialValue = 1)
     private long idAttributProduit;
     @Column(name="valeur_couleur_produit")
     private String couleurProduit;

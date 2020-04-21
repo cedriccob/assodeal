@@ -1,3 +1,10 @@
+CREATE TABLE `application` (
+  `id` bigint(20) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `attributs_produit` (
   `id_attribut_produit` bigint(20) NOT NULL,
   `valeur_couleur_produit` varchar(255) DEFAULT NULL,
@@ -5,11 +12,19 @@ CREATE TABLE `attributs_produit` (
   PRIMARY KEY (`id_attribut_produit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `attributs_produits_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `categorie_produit` (
   `id_categorie_produit` bigint(20) NOT NULL,
   `abreviation_produit` varchar(255) DEFAULT NULL,
   `libelle_produit` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_categorie_produit`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `categorie_produit_seq` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `commande` (
@@ -23,6 +38,10 @@ CREATE TABLE `commande` (
   CONSTRAINT `FKsnyiwmlx81guec4rq7bdkea5i` FOREIGN KEY (`id_produit`) REFERENCES `produit` (`id_produit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `commande_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `confirmation_token` (
   `token_id` bigint(20) NOT NULL,
   `confirmation_token` varchar(255) DEFAULT NULL,
@@ -33,12 +52,20 @@ CREATE TABLE `confirmation_token` (
   CONSTRAINT `FKhjrtky9wbd6lbk7mu9tuddqgn` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `confirmation_token_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `facture` (
   `id_facture` bigint(20) NOT NULL,
   `date_facture` datetime DEFAULT NULL,
   `montant_facture` decimal(19,2) DEFAULT NULL,
   `numero_facture` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_facture`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `facture_seq` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `fournisseur` (
@@ -51,6 +78,10 @@ CREATE TABLE `fournisseur` (
   PRIMARY KEY (`id_fournisseur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `fournisseur_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -60,6 +91,10 @@ CREATE TABLE `moyen_paiement` (
   `abreviation_moyen_paiement` varchar(255) DEFAULT NULL,
   `libelle_moyen_paiement` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_moyen_paiement`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `moyen_paiement_seq` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `produit` (
@@ -76,6 +111,10 @@ CREATE TABLE `produit` (
   KEY `FKfo1ou3noydpx86uwabyvkdgj2` (`id_categorie_produit`),
   CONSTRAINT `FKdv08h23oe2r44fwjfg31uqvq7` FOREIGN KEY (`id_attributs_produit`) REFERENCES `attributs_produit` (`id_attribut_produit`),
   CONSTRAINT `FKfo1ou3noydpx86uwabyvkdgj2` FOREIGN KEY (`id_categorie_produit`) REFERENCES `categorie_produit` (`id_categorie_produit`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `produit_seq` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user` (
@@ -105,4 +144,12 @@ CREATE TABLE `user_role` (
   `code_role` varchar(255) DEFAULT NULL,
   `name_role` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `user_role_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `user_seq` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

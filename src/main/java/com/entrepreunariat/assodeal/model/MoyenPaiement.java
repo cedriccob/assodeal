@@ -1,14 +1,12 @@
 package com.entrepreunariat.assodeal.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class MoyenPaiement {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-pmt")
+    @SequenceGenerator(name = "seqid-gen-pmt", sequenceName = "moyen_paiement_seq", allocationSize = 1, initialValue = 1)
     private long idMoyenPaiement;
     private String libelleMoyenPaiement;
     private String abreviationMoyenPaiement;

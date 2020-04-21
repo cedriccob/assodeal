@@ -6,7 +6,8 @@ import java.util.Date;
 @Entity
 public class Commande {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen-com")
+    @SequenceGenerator(name = "seqid-gen-com", sequenceName = "commande_seq", allocationSize = 1, initialValue = 1)
     private long idCommande;
     private int quantiteCommande;
     private Date dateCommande;

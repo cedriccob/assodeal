@@ -11,7 +11,8 @@ public class ConfirmationToken implements Serializable {
 
     private static final long serialVersionUID = 8247086982054260712L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqid-gen")
+    @SequenceGenerator(name = "seqid-gen", sequenceName = "confirmation_token_seq", allocationSize = 1, initialValue = 1)
     @Column(name="token_id")
     private long tokenid;
 
