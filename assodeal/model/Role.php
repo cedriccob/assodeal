@@ -54,12 +54,12 @@ class Role
 
     public function getRoles(){
         $client = new Client();
-        $response = $client->get('http://localhost:8081/roles/all');
+        $response = $client->get('http://localhost:8080/roles/all');
         return json_decode($response->getBody(), true);
     }
 
     public function getRoleById($id){
-        $client = new GuzzleHttp\Client(['base_uri' => 'http://localhost:8081/roles/']);
+        $client = new GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/roles/']);
         $response = $client->request('GET', $id);
         return json_decode($response->getBody(), true);
     }
