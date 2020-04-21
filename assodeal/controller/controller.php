@@ -55,7 +55,7 @@ else if(isset($_POST['login']) && isset($_POST['password'])) {
                 $_SESSION['tokenUser'] = $token['token'];
                 $_SESSION['login'] = $login;
                 $_SESSION['role'] = $userInfo['role']['codeRole'];
-                header("Location: /assodeal/index.php");
+                 header("Location: /assodeal/index.php");
             } else { //pas de réponse token reçue, erreur de connexion
                 echo "Erreur de connexion";
                 header("Location: /assodeal/view/login.php");
