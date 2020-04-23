@@ -1,18 +1,13 @@
 package com.entrepreunariat.assodeal.controller;
-
 import com.entrepreunariat.assodeal.config.jwt.JwtTokenUtil;
 import com.entrepreunariat.assodeal.dao.ConfirmationTokenRepository;
-import com.entrepreunariat.assodeal.model.Role;
 import com.entrepreunariat.assodeal.model.User;
-import com.entrepreunariat.assodeal.model.dto.ApplicationDTO;
 import com.entrepreunariat.assodeal.model.dto.UserDTO;
 import com.entrepreunariat.assodeal.model.jwt.ConfirmationToken;
-import com.entrepreunariat.assodeal.model.jwt.JwtRequest;
 import com.entrepreunariat.assodeal.model.jwt.JwtResponse;
 import com.entrepreunariat.assodeal.service.EmailSenderService;
 import com.entrepreunariat.assodeal.service.JwtUserDetailsService;
 import com.entrepreunariat.assodeal.service.RoleService;
-import com.entrepreunariat.assodeal.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -20,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -31,16 +25,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.InetAddress;
-import java.net.URI;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -71,6 +59,18 @@ public class AuthenticationController {
     @Value("${server.port}")
     private int serverPort;
 
+    @Value("${url.address}")
+    private String url;
+
+    @Value("${spring.mail.username}")
+    private String mailContact;
+
+    @Value("${spring.mail.subject}")
+    private String mailSubject;
+
+    @Value("${spring.mail.text}")
+    private String mailText;
+
     @Autowired
     private RoleService roleService;
 
@@ -94,10 +94,10 @@ public class AuthenticationController {
     @ApiIgnore
     public ResponseEntity<?> saveUser(@RequestBody UserDTO userDTO) throws Exception {
         ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.OK);
-        User existingUser = userDetailsService.findExistingMail(userDTO.getMail());
+        User existingUser = userDetailsService.findExistingMailOrUsername(userDTO.getMail(), userDTO.getUsername());
 
         if (existingUser != null) {
-            LOGGER.error("L'email existe déjà");
+            LOGGER.error("L'email ou le pseudo exite déjà");
             response = new ResponseEntity<>(HttpStatus.CONFLICT);
         } else if (userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             userDTO.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
@@ -107,10 +107,9 @@ public class AuthenticationController {
             confirmationTokenRepository.save(confirmationToken);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(convertUserToEntity(userDTO).getMail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setFrom("contact-assodeal@gmail.com");
-            mailMessage.setText("To confirm your account, please click here : http://"
-                    + InetAddress.getLoopbackAddress().getHostName() + ":" + serverPort + "/confirm-account?token="
+            mailMessage.setSubject(mailSubject);
+            mailMessage.setFrom(mailContact);
+            mailMessage.setText(mailText
                     + confirmationToken.getConfirmationToken());
             emailSenderService.sendEmail(mailMessage);
         } else {
@@ -149,15 +148,6 @@ public class AuthenticationController {
         return response;
     }
 
-
-    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
-    @ApiIgnore
-    public RedirectView confirmUserAccount(@RequestParam("token") String confirmationToken) throws Exception {
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://" + InetAddress.getLoopbackAddress().getHostName() + "/assodeal/controller/controller.php?token=" + confirmationToken);
-        return redirectView;
-    }
-
     @RequestMapping(value = "/confirm-account", method = {RequestMethod.POST})
     @ApiIgnore
     public ResponseEntity<?> confirmUserAccountPost(@RequestParam("token") String confirmationToken) throws Exception {
@@ -168,10 +158,15 @@ public class AuthenticationController {
             if (token.getUser().isEnabled()) {
                 response = new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
-                User user = userDetailsService.findExistingMail(token.getUser().getMail());
-                user.setEnabled(true);
-                UserDTO userDTO = convertEntityToDTO(user);
-                userDetailsService.save(userDTO);
+                User user = userDetailsService.findExistingMailOrUsername(token.getUser().getMail(), token.getUser().getUsername());
+                if(user!=null) {
+                    user.setEnabled(true);
+                    UserDTO userDTO = convertEntityToDTO(user);
+                    userDetailsService.save(userDTO);
+                }
+                else{
+                    response = new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
         } else {
             response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

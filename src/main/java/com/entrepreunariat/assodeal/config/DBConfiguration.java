@@ -28,7 +28,7 @@ public class DBConfiguration {
     @Profile("prod")
     @Bean
     public String prodDataBaseConnection(){
-        LOGGER.info("DB connection for test MYSQL");
+        LOGGER.info("DB connection for prod MYSQL");
         LOGGER.info("username {}", userName);
         return "url prod "+url;
     }

@@ -1,15 +1,8 @@
 package com.entrepreunariat.assodeal.service;
 
 import com.entrepreunariat.assodeal.dao.UserRepository;
-import com.entrepreunariat.assodeal.model.Application;
-import com.entrepreunariat.assodeal.model.Produit;
-import com.entrepreunariat.assodeal.model.Role;
 import com.entrepreunariat.assodeal.model.User;
-import com.entrepreunariat.assodeal.model.dto.ApplicationDTO;
-import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
-import com.entrepreunariat.assodeal.model.dto.RoleDTO;
 import com.entrepreunariat.assodeal.model.dto.UserDTO;
-import com.entrepreunariat.assodeal.service.impl.ProduitServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,8 +64,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User findExistingMail(String mail) {
-        return userRepository.findByMailIgnoreCase(mail);
+    public User findExistingMailOrUsername(String mail, String username) {
+        return userRepository.findByMailOrUsernameIgnoreCase(mail, username);
     }
 
     public User findUserByUsername(String username) {
