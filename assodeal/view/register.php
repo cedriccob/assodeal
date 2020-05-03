@@ -76,7 +76,7 @@ require('../model/Role.php');
                     <select class="selectpicker" name="selectRole" id="selectRole">
                         <?php
                         $role = new Role();
-                        $result = $role->getRoles();
+                        $result = $role->getRolesForRegister();
                         foreach ($result as $key => $value) {
                             echo "<option value = '" . $value["idRole"] . "'>" . $value["nameRole"] . "</option >";
                         }
