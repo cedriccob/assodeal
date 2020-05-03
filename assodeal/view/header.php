@@ -13,6 +13,7 @@
     <link href="/assodeal/public/css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Poppins:300,500,600,700' rel='stylesheet' type='text/css'>
     <link href="/assodeal/public/css/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 
 </head>
 <body id="index">

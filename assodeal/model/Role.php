@@ -52,6 +52,12 @@ class Role
         $this->idRole = $idRole;
     }
 
+    public function getRolesForRegister(){
+        $client = new Client();
+        $response = $client->get('http://localhost:8080/roles/allRegister');
+        return json_decode($response->getBody(), true);
+    }
+
     public function getRoles(){
         $client = new Client();
         $response = $client->get('http://localhost:8080/roles/all');

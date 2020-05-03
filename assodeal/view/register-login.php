@@ -1,5 +1,5 @@
 <?php
-session_start();
+include ("session.php");
 ?>
                 <div class="user-info pull-right">
                     <div class="user">

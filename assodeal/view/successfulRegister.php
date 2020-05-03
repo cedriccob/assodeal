@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-session_start();
+include ("session.php");
 
 ?>
 

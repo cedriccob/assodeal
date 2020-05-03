@@ -88,16 +88,18 @@
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/assodeal/public/js/jQuery.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/assodeal/public/Bootstrap/js/bootstrap.js"></script>
 <script src="/assodeal/public/js/owl.carousel.min.js"></script>
 <script src="/assodeal/public/js/globle.js"></script>
+</div>
 </body>
 
 <!-- Footer block Start  -->
 
 <!-- Footer block End  -->
 
-</div>
 
 </html>
