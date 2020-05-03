@@ -85,9 +85,9 @@ public class UserController {
     @ApiOperation(value = "Retrouver un utilisateur par son username", authorizations = @Authorization(value = "Bearer"))
     ResponseEntity<User> findUserByName(@PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
-        ResponseEntity<User> response = ResponseEntity.ok(user);
-        if(user==null){
-            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseEntity<User> response =  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(user!=null){
+            response = ResponseEntity.ok(user);
         }
         return response;
     }

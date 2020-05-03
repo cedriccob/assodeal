@@ -11,4 +11,7 @@ public interface AttributsProduitRepository extends JpaRepository<AttributsProdu
     Optional<AttributsProduit> findById(Long id);
     AttributsProduit save(AttributsProduit attributsProduit);
     void deleteByIdAttributProduit(Long idAttributProduit);
+    List<AttributsProduit> findAllByAbreviationProduitContainingOrCouleurProduitContainingOrPoidsProduitContaining(
+            String abreviationProduit, String couleurProduit, double poidsProduit);
+
 }

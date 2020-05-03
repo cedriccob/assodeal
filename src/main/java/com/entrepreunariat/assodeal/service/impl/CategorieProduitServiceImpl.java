@@ -1,5 +1,6 @@
 package com.entrepreunariat.assodeal.service.impl;
 
+import com.entrepreunariat.assodeal.dao.CategorieProduitCustomRepository;
 import com.entrepreunariat.assodeal.dao.CategorieProduitRepository;
 import com.entrepreunariat.assodeal.model.CategorieProduit;
 import com.entrepreunariat.assodeal.model.dto.CategorieProduitDTO;
@@ -21,11 +22,19 @@ public class CategorieProduitServiceImpl implements CategorieProduitService {
     CategorieProduitRepository categorieProduitRepository;
 
     @Autowired
+    CategorieProduitCustomRepository categorieProduitCustomRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
     @Override
     public List<CategorieProduit> findAllCategoriesProduit() {
         return categorieProduitRepository.findAll();
+    }
+
+    @Override
+    public List<CategorieProduit> findAllSearch(String searchValue) {
+        return categorieProduitCustomRepository.findSearch(searchValue);
     }
 
     @Override
@@ -36,8 +45,8 @@ public class CategorieProduitServiceImpl implements CategorieProduitService {
     @Override
     public CategorieProduit saveCategorieProduit(CategorieProduitDTO categorieProduitDTO) {
         CategorieProduit categorieProduit = new CategorieProduit();
-        categorieProduit.setAbreviationProduit(categorieProduitDTO.getAbreviationProduit());
-        categorieProduit.setLibelleProduit(categorieProduitDTO.getLibelleProduit());
+        categorieProduit.setIdCategorieProduit(categorieProduitDTO.getIdCategorieProduit());
+        categorieProduit.setLibelleCategorieProduit(categorieProduitDTO.getLibelleCategorieProduit());
         return categorieProduitRepository.save(categorieProduit);
     }
 

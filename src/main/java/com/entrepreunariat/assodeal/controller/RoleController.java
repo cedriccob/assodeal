@@ -28,8 +28,14 @@ public class RoleController {
     @GetMapping("/all")
     @ApiOperation(value = "Afficher tous les rôles")
     List<Role> findAll() {
-
         return roleService.findAllRole();
+    }
+
+    @ResponseBody
+    @GetMapping("/allRegister")
+    @ApiOperation(value = "Afficher tous les rôles pour l'inscription")
+    List<Role> findAllRegister() {
+        return roleService.findAllRoleForRegister();
     }
 
     @PostMapping("/add")

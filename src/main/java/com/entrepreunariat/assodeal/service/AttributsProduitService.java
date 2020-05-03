@@ -12,6 +12,7 @@ public interface AttributsProduitService {
     Optional<AttributsProduit> retrieveAttributProduit(Long id);
     AttributsProduit saveAttributProduit(AttributsProduitDTO attributsProduitDTO);
     void deleteAttributProduit(Long idAttributsProduit);
+    List<AttributsProduit> findAllSearch(String searchValue);
     AttributsProduitDTO convertAttributsProduitToDTO(AttributsProduit attributsProduit) throws ParseException;
     AttributsProduit convertAttributsProduitToEntity(AttributsProduitDTO attributsProduitDto) throws ParseException;
 

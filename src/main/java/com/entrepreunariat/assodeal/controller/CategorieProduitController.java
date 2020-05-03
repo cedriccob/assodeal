@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.text.ParseException;
 import java.util.List;
@@ -35,9 +36,16 @@ public class CategorieProduitController {
 
     @ResponseBody
     @GetMapping("/all")
-    @ApiOperation(value = "Récupérer toutes les catégories de produit", authorizations = @Authorization(value = "Bearer"))
+    @ApiOperation(value = "Récupérer toutes les catégories de produit")
     List<CategorieProduit> findAll() {
         return categorieProduitService.findAllCategoriesProduit();
+    }
+
+    @ResponseBody
+    @GetMapping("/all/search")
+    @ApiIgnore
+    List<CategorieProduit> findAllSearch(@RequestParam(value = "search") String search) {
+        return categorieProduitService.findAllSearch(search);
     }
 
     @PostMapping("/add")
@@ -65,8 +73,7 @@ public class CategorieProduitController {
             LOGGER.error("Mise à jour impossible, cette catégorie de produit n'existe pas");
         } else {
             try {
-                categorieProduit.get().setAbreviationProduit(categorieProduitDTO.getAbreviationProduit());
-                categorieProduit.get().setLibelleProduit(categorieProduitDTO.getLibelleProduit());
+                categorieProduit.get().setLibelleCategorieProduit(categorieProduitDTO.getLibelleCategorieProduit());
                 categorieProduitService.saveCategorieProduit(
                         categorieProduitService.convertCategorieProduitToDTO(categorieProduit.get()));
             } catch (ParseException e) {

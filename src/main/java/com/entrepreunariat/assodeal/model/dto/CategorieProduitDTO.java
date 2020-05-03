@@ -6,8 +6,7 @@ public class CategorieProduitDTO implements Serializable {
 
     private static final long serialVersionUID = 1775201885919116481L;
     private long idCategorieProduit;
-    private String libelleProduit;
-    private String abreviationProduit;
+    private String libelleCategorieProduit;
 
     public long getIdCategorieProduit() {
         return idCategorieProduit;
@@ -17,20 +16,12 @@ public class CategorieProduitDTO implements Serializable {
         this.idCategorieProduit = idCategorieProduit;
     }
 
-    public String getLibelleProduit() {
-        return libelleProduit;
+    public String getLibelleCategorieProduit() {
+        return libelleCategorieProduit;
     }
 
-    public void setLibelleProduit(String libelleProduit) {
-        this.libelleProduit = libelleProduit;
-    }
-
-    public String getAbreviationProduit() {
-        return abreviationProduit;
-    }
-
-    public void setAbreviationProduit(String abreviationProduit) {
-        this.abreviationProduit = abreviationProduit;
+    public void setLibelleCategorieProduit(String libelleCategorieProduit) {
+        this.libelleCategorieProduit = libelleCategorieProduit;
     }
 
 }

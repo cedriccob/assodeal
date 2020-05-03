@@ -8,6 +8,7 @@ public class AttributsProduitDTO  implements Serializable {
     private long idAttributsProduit;
     private String couleurProduit;
     private double poidsProduit;
+    private String abreviationProduit;
 
     public long getIdAttributsProduit() {
         return idAttributsProduit;
@@ -32,4 +33,13 @@ public class AttributsProduitDTO  implements Serializable {
     public void setPoidsProduit(double poidsProduit) {
         this.poidsProduit = poidsProduit;
     }
+
+    public String getAbreviationProduit() {
+        return abreviationProduit;
+    }
+
+    public void setAbreviationProduit(String abreviationProduit) {
+        this.abreviationProduit = abreviationProduit;
+    }
 }
+

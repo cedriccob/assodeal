@@ -12,6 +12,8 @@ public class AttributsProduit {
     private String couleurProduit;
     @Column(name="valeur_poids_produit")
     private double poidsProduit;
+    @Column(name="valeur_abreviation_produit")
+    private String abreviationProduit;
 
     public long getIdAttributProduit() {
         return idAttributProduit;
@@ -37,4 +39,11 @@ public class AttributsProduit {
         this.poidsProduit = poidsProduit;
     }
 
+    public String getAbreviationProduit() {
+        return abreviationProduit;
+    }
+
+    public void setAbreviationProduit(String abreviationProduit) {
+        this.abreviationProduit = abreviationProduit;
+    }
 }

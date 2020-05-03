@@ -1,6 +1,7 @@
 package com.entrepreunariat.assodeal.controller;
 
 import com.entrepreunariat.assodeal.model.AttributsProduit;
+import com.entrepreunariat.assodeal.model.User;
 import com.entrepreunariat.assodeal.model.dto.AttributsProduitDTO;
 import com.entrepreunariat.assodeal.service.AttributsProduitService;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.text.ParseException;
 import java.util.List;
@@ -36,6 +38,14 @@ public class AttributsProduitController {
     @ApiOperation(value = "Accéder à tous les attributs de produit", authorizations = @Authorization(value = "Bearer"))
     List<AttributsProduit> findAll() {
         return attributsProduitService.findAllAttributsProduit();
+    }
+
+    @ResponseBody
+    @GetMapping("/all/search")
+    @ApiIgnore
+    List<AttributsProduit> findAllSearch(@RequestParam(value = "search", required = false) String search)
+    {
+        return attributsProduitService.findAllSearch(search);
     }
 
     @PostMapping("/add")
@@ -63,9 +73,10 @@ public class AttributsProduitController {
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             try {
+                attributsProduit.get().setPoidsProduit(attributsProduitDTO.getPoidsProduit());
+                attributsProduit.get().setCouleurProduit(attributsProduitDTO.getCouleurProduit());
+                attributsProduit.get().setAbreviationProduit(attributsProduitDTO.getAbreviationProduit());
 
-            attributsProduit.get().setPoidsProduit(attributsProduitDTO.getPoidsProduit());
-            attributsProduit.get().setCouleurProduit(attributsProduitDTO.getCouleurProduit());
                 attributsProduitService.saveAttributProduit(
                         attributsProduitService.convertAttributsProduitToDTO(attributsProduit.get()));
             }
@@ -79,8 +90,13 @@ public class AttributsProduitController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Récupérer un attribut de produit par l'id", authorizations = @Authorization(value = "Bearer"))
-    Optional<AttributsProduit> findAttributsProduit(@PathVariable("id") long idAttributsProduit) {
-        return attributsProduitService.retrieveAttributProduit(idAttributsProduit);
+    ResponseEntity<AttributsProduit> findAttributsProduit(@PathVariable("id") long idAttributsProduit) {
+        ResponseEntity<AttributsProduit> response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<AttributsProduit> attribut = attributsProduitService.retrieveAttributProduit(idAttributsProduit);
+        if(attribut.isPresent()){
+            response = ResponseEntity.ok(attribut.get());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
