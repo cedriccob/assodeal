@@ -110,7 +110,7 @@ public class AuthenticationController {
             mailMessage.setSubject(mailSubject);
             mailMessage.setFrom(mailContact);
             mailMessage.setText(mailText
-                    + confirmationToken.getConfirmationToken());
+                    + confirmationToken.getConfirmationToken()+"'>ici</a>");
             emailSenderService.sendEmail(mailMessage);
         } else {
             LOGGER.error("Les mots de passe sont différents");

@@ -1,5 +1,8 @@
 package com.entrepreunariat.assodeal.config.jwt;
 
+import com.entrepreunariat.assodeal.controller.RoleController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -15,9 +18,17 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 
     private static final long serialVersionUID = 8586382934475859763L;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
+
+
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        final String expired = (String) httpServletRequest.getAttribute("expired");
+        if (expired!=null){
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,expired);
+        }else{
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalid Login details");
+        }
 
     }
 }

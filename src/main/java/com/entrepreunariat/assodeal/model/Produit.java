@@ -15,11 +15,13 @@ public class Produit {
     private BigDecimal prixVenteProduit;
     private String detailProduit;
     @OneToOne
-    @JoinColumn(name = "id_attributs_produit")
-    private AttributsProduit attributsProduit;
-    @OneToOne
     @JoinColumn(name = "id_categorie_produit")
     private CategorieProduit categorieProduit;
+    private String couleurProduit;
+    private double poidsProduit;
+    private String abreviationProduit;
+    @Lob
+    private byte[] imageProduit;
 
 
     public long getIdProduit() {
@@ -70,14 +72,6 @@ public class Produit {
         this.detailProduit = detailProduit;
     }
 
-    public AttributsProduit getAttributsProduit() {
-        return attributsProduit;
-    }
-
-    public void setAttributsProduit(AttributsProduit attributsProduit) {
-        this.attributsProduit = attributsProduit;
-    }
-
     public CategorieProduit getCategorieProduit() {
         return categorieProduit;
     }
@@ -86,4 +80,35 @@ public class Produit {
         this.categorieProduit = categorieProduit;
     }
 
+    public byte[] getImageProduit() {
+        return imageProduit;
+    }
+
+    public void setImageProduit(byte[] imageProduit) {
+        this.imageProduit = imageProduit;
+    }
+
+    public String getCouleurProduit() {
+        return couleurProduit;
+    }
+
+    public void setCouleurProduit(String couleurProduit) {
+        this.couleurProduit = couleurProduit;
+    }
+
+    public double getPoidsProduit() {
+        return poidsProduit;
+    }
+
+    public void setPoidsProduit(double poidsProduit) {
+        this.poidsProduit = poidsProduit;
+    }
+
+    public String getAbreviationProduit() {
+        return abreviationProduit;
+    }
+
+    public void setAbreviationProduit(String abreviationProduit) {
+        this.abreviationProduit = abreviationProduit;
+    }
 }

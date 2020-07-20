@@ -1,6 +1,5 @@
 package com.entrepreunariat.assodeal.model.dto;
 
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -12,8 +11,11 @@ public class ProduitDTO implements Serializable {
     private BigDecimal prixReelProduit;
     private BigDecimal prixVenteProduit;
     private String detailProduit;
-    private AttributsProduitDTO attributsProduit;
     private CategorieProduitDTO categorieProduit;
+    private String couleurProduit;
+    private double poidsProduit;
+    private String abreviationProduit;
+    private byte[] imageProduit;
 
     public long getIdProduit() {
         return idProduit;
@@ -63,19 +65,43 @@ public class ProduitDTO implements Serializable {
         this.detailProduit = detailProduit;
     }
 
-    public AttributsProduitDTO getAttributsProduit() {
-        return attributsProduit;
-    }
-
-    public void setAttributsProduit(AttributsProduitDTO attributsProduit) {
-        this.attributsProduit = attributsProduit;
-    }
-
     public CategorieProduitDTO getCategorieProduit() {
         return categorieProduit;
     }
 
     public void setCategorieProduit(CategorieProduitDTO categorieProduit) {
         this.categorieProduit = categorieProduit;
+    }
+
+    public byte[] getImageProduit() {
+        return imageProduit;
+    }
+
+    public void setImageProduit(byte[] imageProduit) {
+        this.imageProduit = imageProduit;
+    }
+
+    public void setCouleurProduit(String couleurProduit) {
+        this.couleurProduit = couleurProduit;
+    }
+
+    public double getPoidsProduit() {
+        return poidsProduit;
+    }
+
+    public void setPoidsProduit(double poidsProduit) {
+        this.poidsProduit = poidsProduit;
+    }
+
+    public String getAbreviationProduit() {
+        return abreviationProduit;
+    }
+
+    public void setAbreviationProduit(String abreviationProduit) {
+        this.abreviationProduit = abreviationProduit;
+    }
+
+    public String getCouleurProduit() {
+        return couleurProduit;
     }
 }

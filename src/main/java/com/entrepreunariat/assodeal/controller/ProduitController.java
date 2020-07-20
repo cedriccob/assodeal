@@ -1,6 +1,7 @@
 package com.entrepreunariat.assodeal.controller;
 
 
+import com.entrepreunariat.assodeal.model.CategorieProduit;
 import com.entrepreunariat.assodeal.model.Produit;
 import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
 import com.entrepreunariat.assodeal.service.AttributsProduitService;
@@ -16,8 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,15 +35,10 @@ public class ProduitController {
     ProduitService produitService;
 
     @Autowired
-    AttributsProduitService attributsProduitService;
-
-    @Autowired
     CategorieProduitService categorieProduitService;
 
     @Autowired
     ModelMapper modelMapper;
-
-
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProduitController.class);
 
@@ -53,12 +52,36 @@ public class ProduitController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Ajouter un produit", authorizations = @Authorization(value = "Bearer"))
-    ResponseEntity<Produit> addProduit(@RequestBody ProduitDTO produit) {
+    ResponseEntity<Produit> addProduit(@RequestPart(value = "imageProduit", required = false) MultipartFile imageProduit,
+                                       @RequestPart(value = "libelleProduit", required = false) String libelleProduit,
+                                       @RequestPart("prixReelProduit") String prixReelProduit,
+                                       @RequestPart ("prixVenteProduit")String prixVenteProduit,
+                                       @RequestPart ("qtStockProduit")String qtStockProduit,
+                                       @RequestPart ("idCategorieProduit")String idCategorieProduit) {
         ResponseEntity<Produit> response = new ResponseEntity<>(HttpStatus.CREATED);
+        ProduitDTO produitDTO = new ProduitDTO();
         try {
-            produitService.saveProduit(produit);
+            if (imageProduit != null) {
+                produitDTO.setImageProduit(imageProduit.getBytes());
+            }
+            if(idCategorieProduit!=null) {
+                Optional<CategorieProduit> categorieProduit = categorieProduitService.retrieveCategorieProduit(Long.parseLong(idCategorieProduit));
+                produitDTO.setLibelleProduit(libelleProduit);
+                produitDTO.setPrixReelProduit(new BigDecimal(prixReelProduit));
+                produitDTO.setPrixReelProduit(new BigDecimal(prixVenteProduit));
+                produitDTO.setQtStockProduit(Integer.parseInt(qtStockProduit));
+                if (categorieProduit.isPresent()) {
+                    produitDTO.setCategorieProduit(categorieProduitService.convertCategorieProduitToDTO(categorieProduit.get()));
+                    produitService.saveProduit(produitDTO);
+                } else {
+                    LOGGER.error("Erreur ajout produit");
+                }
+            }
+            else{
+                LOGGER.error("Erreur de récupération de la categorie produit");
+            }
         } catch (Exception exception) {
-            LOGGER.error("Erreur ajout user", exception);
+            LOGGER.error("Erreur ajout produit", exception);
             response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
@@ -74,8 +97,9 @@ public class ProduitController {
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             try {
-            produit.get().setAttributsProduit(
-                    attributsProduitService.convertAttributsProduitToEntity(newProduit.getAttributsProduit()));
+            produit.get().setAbreviationProduit(newProduit.getAbreviationProduit());
+            produit.get().setCouleurProduit(newProduit.getCouleurProduit());
+            produit.get().setPoidsProduit(newProduit.getPoidsProduit());
             produit.get().setCategorieProduit(
                     categorieProduitService.convertCategorieProduitToEntity(newProduit.getCategorieProduit()));
             produit.get().setDetailProduit(newProduit.getDetailProduit());

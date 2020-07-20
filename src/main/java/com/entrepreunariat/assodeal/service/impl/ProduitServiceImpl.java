@@ -1,5 +1,6 @@
 package com.entrepreunariat.assodeal.service.impl;
 
+import com.entrepreunariat.assodeal.dao.ProduitCustomRepository;
 import com.entrepreunariat.assodeal.dao.ProduitRepository;
 import com.entrepreunariat.assodeal.model.Produit;
 import com.entrepreunariat.assodeal.model.dto.ProduitDTO;
@@ -25,6 +26,9 @@ public class ProduitServiceImpl implements ProduitService {
     ProduitRepository produitRepository;
 
     @Autowired
+    ProduitCustomRepository produitCustomRepository;
+
+    @Autowired
     CategorieProduitService categorieProduitService;
 
     @Autowired
@@ -39,6 +43,11 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
+    public List<Produit> findAllSearch(String searchValue) {
+        return produitCustomRepository.findSearch(searchValue);
+    }
+
+    @Override
     public Optional<Produit> findProduit(Long id) {
         return produitRepository.findById(id);
     }
@@ -50,15 +59,18 @@ public class ProduitServiceImpl implements ProduitService {
     public Produit saveProduit(ProduitDTO produitDTO) {
         Produit produit = new Produit();
         try{
+            produit.setIdProduit(produitDTO.getIdProduit());
             produit.setQtStockProduit(produitDTO.getQtStockProduit());
             produit.setPrixVenteProduit(produitDTO.getPrixVenteProduit());
             produit.setPrixReelProduit(produitDTO.getPrixReelProduit());
             produit.setLibelleProduit(produitDTO.getLibelleProduit());
             produit.setDetailProduit(produitDTO.getDetailProduit());
+            produit.setImageProduit(produitDTO.getImageProduit());
             produit.setCategorieProduit(
                     categorieProduitService.convertCategorieProduitToEntity(produitDTO.getCategorieProduit()));
-            produit.setAttributsProduit(
-                    attributsProduitService.convertAttributsProduitToEntity(produitDTO.getAttributsProduit()));
+            produit.setAbreviationProduit(produitDTO.getAbreviationProduit());
+            produit.setCouleurProduit(produitDTO.getCouleurProduit());
+            produit.setPoidsProduit(produitDTO.getPoidsProduit());
         } catch (ParseException exception){
             LOGGER.error("erreur service produit");
         }
